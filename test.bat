@@ -1,0 +1,1 @@
+D:\emulators\citra\citra.exe NTR-Launcher.3dsx
