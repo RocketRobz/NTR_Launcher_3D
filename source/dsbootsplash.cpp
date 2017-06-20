@@ -1,4 +1,5 @@
 #include "main.h"
+#include "settings.h"
 #include "gamecard.h"
 #include "language.h"
 #include "log.h"
@@ -42,7 +43,7 @@ void fade_whiteToBlack() {
 			sf2d_start_frame(GFX_TOP, (gfx3dSide_t)topfb);
 			drawRectangle(0, 0, 400, 240, RGBA8(255, 255, 255, 255));
 			drawRectangle(0, 0, 400, 240, RGBA8(0, 0, 0, fade));
-			if (bootscreen == 1) {
+			if (settings.ui.bootscreen == 1) {
 				drawRectangle(0, 0, 40, 240, RGBA8(0, 0, 0, 255)); // Left black bar
 				drawRectangle(360, 0, 40, 240, RGBA8(0, 0, 0, 255)); // Right black bar
 			}
@@ -90,7 +91,7 @@ void bootSplash() {
 	
 	// Load the sound effects if DSP is available.
 	if (dspfirmfound) {
-		if (bootscreen >= 2)
+		if (settings.ui.bootscreen >= 2)
 			sfx_boot = new sound("romfs:/sounds/BootSplash/dsiboot.wav", 2, false);
 		else
 			sfx_boot = new sound("romfs:/sounds/BootSplash/dsboot.wav", 2, false);
@@ -162,7 +163,7 @@ void bootSplash() {
 	float offset3D_temp = 0.0f;
 	
 	int logopos = 40;
-	if (bootscreen == 2) logopos = 20;		// Move the DS logo to the left to make room for the "i"
+	if (settings.ui.bootscreen == 2) logopos = 20;		// Move the DS logo to the left to make room for the "i"
 	if (sys_language == 6 || sys_language == 11) logopos -= 40;
 	
 	int wipePos = 0;
@@ -170,12 +171,12 @@ void bootSplash() {
 	int i_alpha = 0;
 	int touchtocontinue_yPos;
 	if (sys_language == 0) {
-		if (healthsafety)
+		if (settings.ui.healthsafety)
 			touchtocontinue_yPos = 200;
 		else
 			touchtocontinue_yPos = 115;
 	} else {
-		if (healthsafety)
+		if (settings.ui.healthsafety)
 			touchtocontinue_yPos = 209;
 		else
 			touchtocontinue_yPos = 124;
@@ -195,7 +196,7 @@ void bootSplash() {
 		for (int topfb = GFX_LEFT; topfb <= GFX_RIGHT; topfb++) {
 			sf2d_start_frame(GFX_TOP, (gfx3dSide_t)topfb);
 			drawRectangle(0, 0, 400, 240, RGBA8(255, 255, 255, 255));
-			if (bootscreen == 1) {
+			if (settings.ui.bootscreen == 1) {
 				drawRectangle(0, 0, 40, 240, RGBA8(0, 0, 0, 255)); // Left black bar
 				drawRectangle(360, 0, 40, 240, RGBA8(0, 0, 0, 255)); // Right black bar
 			}
@@ -308,7 +309,7 @@ void bootSplash() {
 				else offset3D_temp = -offset3D_nint;
 				sf2d_draw_texture(nintendotex, offset3D_temp+40+84, 177);
 			}
-			if (bootscreen >= 2 && splashScreenTime > 60*1) {
+			if (settings.ui.bootscreen >= 2 && splashScreenTime > 60*1) {
 				if (topfb == 1) offset3D_temp = offset3D_i;
 				else offset3D_temp = -offset3D_i;
 				i_alpha += 10;
@@ -416,7 +417,7 @@ void bootSplash() {
 			sf2d_draw_texture(wipetex, wipePos-320, 0);
 			drawRectangle(wipePos, 0, 400, 240, RGBA8(255, 255, 255, 255));
 			if (fadeout) drawRectangle(0, 0, 400, 240, RGBA8(255, 255, 255, bootSplash_fade));
-			if (bootscreen == 1) {
+			if (settings.ui.bootscreen == 1) {
 				drawRectangle(0, 0, 40, 240, RGBA8(0, 0, 0, 255)); // Left black bar
 				drawRectangle(360, 0, 40, 240, RGBA8(0, 0, 0, 255)); // Right black bar
 			}
@@ -428,7 +429,7 @@ void bootSplash() {
 		switch (sys_language) {
 			case 0:
 			// Japanese
-				if (healthsafety) {
+				if (settings.ui.healthsafety) {
 					sf2d_draw_texture(hstex, 55, 14);
 					sf2d_draw_texture(hstexttex, 0, 0);
 					setTextColor(RGBA8(61, 161, 191, 255));
@@ -441,7 +442,7 @@ void bootSplash() {
 			case 1:
 			default:
 			// English
-				if (healthsafety) {
+				if (settings.ui.healthsafety) {
 					sf2d_draw_texture(hstex, 12, 16);
 					setTextColor(RGBA8(0, 0, 0, 255));
 					renderText_w(34, 19, 0.65, 0.65, false, TR(STR_DSSPLASH_WARNING_HS));
@@ -460,7 +461,7 @@ void bootSplash() {
 				break;
 			case 2:
 			// French
-				if (healthsafety) {
+				if (settings.ui.healthsafety) {
 					sf2d_draw_texture(hstex, 12, 16);
 					setTextColor(RGBA8(0, 0, 0, 255));
 					renderText_w(34, 19, 0.62, 0.62, false, TR(STR_DSSPLASH_WARNING_HS));
@@ -480,7 +481,7 @@ void bootSplash() {
 				break;
 			case 3:
 			// German
-				if (healthsafety) {
+				if (settings.ui.healthsafety) {
 					sf2d_draw_texture(hstex, 12, 16);
 					setTextColor(RGBA8(0, 0, 0, 255));
 					renderText_w(35, 21, 0.50, 0.55, false, TR(STR_DSSPLASH_WARNING_HS));
@@ -500,7 +501,7 @@ void bootSplash() {
 				break;
 			case 4:
 			// Italian
-				if (healthsafety) {
+				if (settings.ui.healthsafety) {
 					sf2d_draw_texture(hstex, 12, 16);
 					setTextColor(RGBA8(0, 0, 0, 255));
 					renderText_w(34, 19, 0.60, 0.60, false, TR(STR_DSSPLASH_WARNING_HS));
@@ -520,7 +521,7 @@ void bootSplash() {
 				break;
 			case 5:
 			// Spanish
-				if (healthsafety) {
+				if (settings.ui.healthsafety) {
 					sf2d_draw_texture(hstex, 12, 16);
 					setTextColor(RGBA8(0, 0, 0, 255));
 					renderText_w(34, 21, 0.50, 0.55, false, TR(STR_DSSPLASH_WARNING_HS));
@@ -541,7 +542,7 @@ void bootSplash() {
 			case 6:
 			case 11:
 			// Chinese
-				if (healthsafety) {
+				if (settings.ui.healthsafety) {
 					sf2d_draw_texture(hstex, 49, 12);
 					sf2d_draw_texture(hstexttex, 0, 0);
 					setTextColor(RGBA8(61, 161, 191, 255));
@@ -553,7 +554,7 @@ void bootSplash() {
 				break;
 			case 7:
 			// Korean
-				if (healthsafety) {
+				if (settings.ui.healthsafety) {
 					sf2d_draw_texture(hstex, 29, 10);
 					sf2d_draw_texture(hstexttex, 0, 0);
 					setTextColor(RGBA8(61, 161, 191, 255));

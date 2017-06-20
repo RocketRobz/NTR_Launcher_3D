@@ -4,6 +4,7 @@
 
 #include "dumpdsp.h"
 #include "dsbootsplash.h"
+#include "settings.h"
 #include "textfns.h"
 #include "language.h"
 #include "gamecard.h"
@@ -106,8 +107,6 @@ int fadealpha = 255;
 bool fadein = true;
 bool fadeout = false;
 	
-bool keepsdvalue = false;
-
 bool logEnabled = false;
 
 static std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
@@ -202,9 +201,6 @@ static int RainbowLED(void) {
 	return 0;
 }
 
-int bootscreen = 0;
-bool healthsafety = true;
-
 // NTR Launcher 3D - TWLNAND side Title ID.
 extern const u64 TWLNAND_TID;
 const u64 TWLNAND_TID = 0x000480054B4B4733ULL;
@@ -272,6 +268,8 @@ int main()
 	
 	// Initialize translations.
 	langInit();	
+	
+	LoadSettings();	
 
 	if (logEnabled)	LogFM("Main.sf2d_textures", "Textures loading");
 
@@ -310,29 +308,58 @@ int main()
 		sfx_wrong = new sound("romfs:/sounds/wrong.wav", 2, false);
 		sfx_back = new sound("romfs:/sounds/back.wav", 2, false);
 	}
+	
+	bool enterSettings = false;
 
 	sf2d_set_3D(1);
 
-	bootSplash();
-	if (logEnabled)	LogFM("Main.bootSplash", "Boot splash played");
-	fade_whiteToBlack();
+	if (!settings.ui.disableanimation) {
+		bootSplash();
+		if (logEnabled)	LogFM("Main.bootSplash", "Boot splash played");
+		fade_whiteToBlack();
+	}
 
 	// Loop as long as the status is not exit
 	const bool isTWLNANDInstalled = checkTWLNANDSide();
 	
 	if (logEnabled && aptMainLoop()) LogFM("Main.aptMainLoop", "aptMainLoop is running");
 	while(aptMainLoop()) {
-		// Buffers for APT_DoApplicationJump().
-		u8 param[0x300];
-		u8 hmac[0x20];
-		// Clear both buffers
-		memset(param, 0, sizeof(param));
-		memset(hmac, 0, sizeof(hmac));
+		// Scan hid shared memory for input events
+		hidScanInput();
 
-		APT_PrepareToDoApplicationJump(0, TWLNAND_TID, MEDIATYPE_NAND);
-		// Tell APT to trigger the app launch and set the status of this app to exit
-		APT_DoApplicationJump(param, sizeof(param), hmac);
+		const u32 hDown = hidKeysDown();
+		const u32 hHeld = hidKeysHeld();
+
+		textVtxArrayPos = 0; // Clear the text vertex array
+		
+		if (hHeld & KEY_A) enterSettings = true;
+	
+		if (enterSettings) {
+			sf2d_start_frame(GFX_BOTTOM, GFX_LEFT);
+			settingsDrawBottomScreen();
+			sf2d_end_frame();
+			sf2d_swapbuffers();
+
+			settingsMoveCursor(hDown);
+		} else {
+			SaveSettings();
+			
+			if (settings.twl.rainbowled) RainbowLED();
+
+			// Buffers for APT_DoApplicationJump().
+			u8 param[0x300];
+			u8 hmac[0x20];
+			// Clear both buffers
+			memset(param, 0, sizeof(param));
+			memset(hmac, 0, sizeof(hmac));
+
+			APT_PrepareToDoApplicationJump(0, TWLNAND_TID, MEDIATYPE_NAND);
+			// Tell APT to trigger the app launch and set the status of this app to exit
+			APT_DoApplicationJump(param, sizeof(param), hmac);
+		}
 	}
+
+	SaveSettings();	
 
 	sf2d_free_texture(rectangletex);
 
@@ -345,6 +372,12 @@ int main()
 	// Clear the translations cache.
 	langClear();
 
+	delete sfx_launch;
+	delete sfx_select;
+	delete sfx_stop;
+	delete sfx_switch;
+	delete sfx_wrong;
+	delete sfx_back;
 	if (dspfirmfound) {
 		ndspExit();
 	}

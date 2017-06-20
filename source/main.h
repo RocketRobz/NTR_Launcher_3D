@@ -10,9 +10,6 @@
 #include <string>
 #include <vector>
 
-extern int bootscreen;
-extern bool healthsafety;
-
 // Dialog box
 extern sf2d_texture *dialogboxtex; // Dialog box
 extern sf2d_texture *dboxtex_button;
