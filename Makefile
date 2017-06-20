@@ -30,7 +30,7 @@ VERSION_DIRTY := $(subst v,,$(shell git describe --tags --abbrev=0))
 VERSION_PARTS := $(subst ., ,$(VERSION_DIRTY))
 
 VERSION_MAJOR := 1
-VERSION_MINOR := 0
+VERSION_MINOR := 1
 VERSION_MICRO := 0
 
 #VERSION_MAJOR := $(word 1, $(VERSION_PARTS))
@@ -220,7 +220,7 @@ $(OUTPUT).cia	:	$(OUTPUT).elf  $(OUTPUT).smdh
 
 	$(BANNERTOOL) makesmdh -i "../app/icon.png" -s "NTR Launcher 3D" -l "NTR Launcher 3D" -p "$(APP_AUTHOR)" -o "../app/icon.bin"
 
-	$(MAKEROM) -f cia -target t -exefslogo -o "../NTR-Launcher.cia" -elf "../NTR-Launcher.elf" -rsf "../app/build-cia.rsf" -banner "../app/banner.bin" -icon "../app/icon.bin" -DAPP_ROMFS="$(TOPDIR)/$(ROMFS)" -major $(VERSION_MAJOR) -minor $(VERSION_MINOR) -micro $(VERSION_MICRO) -DAPP_VERSION_MAJOR="$(VERSION_MAJOR)"
+	$(MAKEROM) -f cia -target t -exefslogo -o "../NTR-Launcher.cia" -elf "../NTR-Launcher.elf" -rsf "../app/build-cia.rsf" -banner "../app/banner.bin" -icon "../app/icon.bin" -logo "../app/logo.bcma.lz" -DAPP_ROMFS="$(TOPDIR)/$(ROMFS)" -major $(VERSION_MAJOR) -minor $(VERSION_MINOR) -micro $(VERSION_MICRO) -DAPP_VERSION_MAJOR="$(VERSION_MAJOR)"
 
 #---------------------------------------------------------------------------------
 # you need a rule like this for each extension you use as binary data

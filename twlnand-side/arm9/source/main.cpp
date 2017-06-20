@@ -42,6 +42,7 @@ int main() {
 
 	// NTR Mode/Splash used by default
 	bool NTRCLOCK = true;
+	bool TWLVRAM = false;
 	bool EnableSD = false;
 
 	// If slot is powered off, tell Arm7 slot power on is required.
@@ -54,6 +55,9 @@ int main() {
 	if (fatInitDefault()) {
 		CIniFile ntrlauncher_config( "sd:/_nds/ntr_launcher.ini" );
 		
+		if(ntrlauncher_config.GetInt("NTRLAUNCHER","NTRCLOCK",0) == 0) { NTRCLOCK = false; }
+		if(ntrlauncher_config.GetInt("NTRLAUNCHER","TWLVRAM",0) == 1) { TWLVRAM = true; }
+
 		if( NTRCLOCK == true ) {
 			fifoSendValue32(FIFO_USER_04, 1);
 			// Disabled for now. Doesn't result in correct SCFG_CLK configuration during testing. Will go back to old method.
@@ -102,7 +106,7 @@ int main() {
 	while(1) {
 		if(REG_SCFG_MC == 0x11) { 
 		break; } else {
-			runLaunchEngine (NTRCLOCK, EnableSD);
+			runLaunchEngine (TWLVRAM, EnableSD);
 		}
 	}
 	return 0;

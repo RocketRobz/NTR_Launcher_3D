@@ -60,10 +60,11 @@ void settingsDrawBottomScreen(void)
 
 	const char *healthsafetyvaluetext = (settings.ui.healthsafety ? "On" : "Off");
 	const char *rainbowledvaluetext = (settings.twl.rainbowled ? "On" : "Off");
-	const char *cpuspeedvaluetext = (settings.twl.cpuspeed ? "133mhz (TWL)" : "67mhz (NTR)");
+	const char *cpuspeedvaluetext = (settings.twl.cpuspeed ? "67mhz (NTR)" : "133mhz (TWL)");
 	const char *extvramvaluetext = (settings.twl.extvram ? "On" : "Off");
 	const char *resetslot1valuetext = (settings.twl.resetslot1 ? "On" : "Off");
 	const char *sdaccesstext = (settings.twl.enablesd ? "On" : "Off");
+	const char *twlmodevaluetext = (settings.twl.twlmode ? "On" : "Off");
 
 	int Ypos = 40;
 	if (cursor_pos[0] == 0) {	
@@ -138,6 +139,15 @@ void settingsDrawBottomScreen(void)
 	renderText(Xpos, Ypos, 0.55, 0.55, false, "SD card access");
 	renderText(XposValue, Ypos, 0.55, 0.55, false, sdaccesstext);
 	Ypos += 12;
+	if (cursor_pos[0] == 8) {
+		setTextColor(RGBA8(255, 255, 255, 255));
+		setTextColor(RGBA8(127, 127, 127, 255));
+	} else {
+		setTextColor(RGBA8(255, 255, 255, 255));
+	}
+	renderText(Xpos, Ypos, 0.55, 0.55, false, "TWL mode");
+	renderText(XposValue, Ypos, 0.55, 0.55, false, twlmodevaluetext);
+	Ypos += 12;
 }
 
 /**
@@ -194,9 +204,12 @@ bool settingsMoveCursor(u32 hDown)
 			case 7:	// Console output
 				settings.twl.enablesd = !settings.twl.enablesd;
 				break;				
+			case 8:	// TWL mode
+				settings.twl.twlmode = !settings.twl.twlmode;
+				break;				
 		}
 		sfx = sfx_select;
-	} else if ((hDown & KEY_DOWN) && cursor_pos[0] < 7) {
+	} else if ((hDown & KEY_DOWN) && cursor_pos[0] < 8) {
 		cursor_pos[0]++;
 		sfx = sfx_select;
 	} else if ((hDown & KEY_UP) && cursor_pos[0] > 0) {
@@ -244,6 +257,7 @@ void LoadSettings(void) {
 	settings.twl.extvram = settingsini.GetInt("NTRLAUNCHER", "TWLVRAM", 0);
 	settings.twl.resetslot1 = settingsini.GetInt("NTRLAUNCHER", "RESETSLOT1", 1);
 	settings.twl.enablesd = settingsini.GetInt("NTRLAUNCHER", "ENABLESD", 0);
+	settings.twl.twlmode = settingsini.GetInt("NTRLAUNCHER", "TWLMODE", 0);
 
 	if (logEnabled)	LogFM("Settings.LoadSettings", "Settings loaded successfully");
 }
@@ -263,6 +277,7 @@ void SaveSettings(void) {
 	settingsini.SetInt("NTRLAUNCHER", "TWLVRAM", settings.twl.extvram);
 	settingsini.SetInt("NTRLAUNCHER", "RESETSLOT1", settings.twl.resetslot1);
 	settingsini.SetInt("NTRLAUNCHER", "ENABLESD", settings.twl.enablesd);
+	settingsini.SetInt("NTRLAUNCHER", "TWLMODE", settings.twl.twlmode);
 
 	settingsini.SaveIniFile("sdmc:/_nds/ntr_launcher.ini");
 }

@@ -322,6 +322,8 @@ int main()
 	// Loop as long as the status is not exit
 	const bool isTWLNANDInstalled = checkTWLNANDSide();
 	
+	bool saveOnExit = false;
+	
 	if (logEnabled && aptMainLoop()) LogFM("Main.aptMainLoop", "aptMainLoop is running");
 	while(aptMainLoop()) {
 		// Scan hid shared memory for input events
@@ -335,6 +337,11 @@ int main()
 		if (hHeld & KEY_A) enterSettings = true;
 	
 		if (enterSettings) {
+			saveOnExit = true;
+			sf2d_start_frame(GFX_TOP, GFX_LEFT);
+			sf2d_end_frame();
+			sf2d_start_frame(GFX_TOP, GFX_RIGHT);
+			sf2d_end_frame();
 			sf2d_start_frame(GFX_BOTTOM, GFX_LEFT);
 			settingsDrawBottomScreen();
 			sf2d_end_frame();
@@ -342,8 +349,7 @@ int main()
 
 			settingsMoveCursor(hDown);
 		} else {
-			SaveSettings();
-			
+			if (access("sdmc:/_nds/ntr_launcher.ini", F_OK) == -1) SaveSettings();
 			if (settings.twl.rainbowled) RainbowLED();
 
 			// Buffers for APT_DoApplicationJump().
@@ -359,7 +365,7 @@ int main()
 		}
 	}
 
-	SaveSettings();	
+	if (saveOnExit) SaveSettings();	
 
 	sf2d_free_texture(rectangletex);
 

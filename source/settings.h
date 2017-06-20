@@ -23,6 +23,7 @@ typedef struct _Settings_t {
 		bool extvram;
 		bool resetslot1;
 		bool enablesd;
+		bool twlmode;
 	} twl;
 	
 } Settings_t;
