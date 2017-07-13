@@ -65,33 +65,73 @@ void fade_whiteToBlack() {
  */
 void bootSplash() {
 	sf2d_texture *ndslogotex;
-	if (sys_language == 6 || sys_language == 11)
-		ndslogotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/iquelogo.png", SF2D_PLACE_RAM);
-	else
-		ndslogotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/ndslogo.png", SF2D_PLACE_RAM);
-	sf2d_texture *itex = sfil_load_PNG_file("romfs:/graphics/BootSplash/i.png", SF2D_PLACE_RAM);
-	sf2d_texture *topotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/topo.png", SF2D_PLACE_RAM);
-	sf2d_texture *bottomotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/bottomo.png", SF2D_PLACE_RAM);
-	sf2d_texture *bigotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/bigo.png", SF2D_PLACE_RAM);
-	sf2d_texture *nintendotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/nintendo.png", SF2D_PLACE_RAM);
+	if (settings.ui.bootscreen >= 3) {
+		if (sys_language == 6 || sys_language == 11)
+			ndslogotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/inv_iquelogo.png", SF2D_PLACE_RAM);
+		else
+			ndslogotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/inv_ndslogo.png", SF2D_PLACE_RAM);
+	} else {
+		if (sys_language == 6 || sys_language == 11)
+			ndslogotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/iquelogo.png", SF2D_PLACE_RAM);
+		else
+			ndslogotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/ndslogo.png", SF2D_PLACE_RAM);
+	}
+	sf2d_texture *itex;
+	sf2d_texture *topotex;
+	sf2d_texture *bottomotex;
+	sf2d_texture *bigotex;
+	sf2d_texture *nintendotex;
+	if (settings.ui.bootscreen >= 3) {
+		itex = sfil_load_PNG_file("romfs:/graphics/BootSplash/inv_i.png", SF2D_PLACE_RAM);
+		topotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/inv_topo.png", SF2D_PLACE_RAM);
+		bottomotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/bottomo.png", SF2D_PLACE_RAM);
+		bigotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/inv_bigo.png", SF2D_PLACE_RAM);
+		nintendotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/nintendo.png", SF2D_PLACE_RAM);
+	} else {
+		itex = sfil_load_PNG_file("romfs:/graphics/BootSplash/i.png", SF2D_PLACE_RAM);
+		topotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/topo.png", SF2D_PLACE_RAM);
+		bottomotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/bottomo.png", SF2D_PLACE_RAM);
+		bigotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/bigo.png", SF2D_PLACE_RAM);
+		nintendotex = sfil_load_PNG_file("romfs:/graphics/BootSplash/nintendo.png", SF2D_PLACE_RAM);
+	}
 	sf2d_texture *hstexttex;
 	sf2d_texture *hstouchtex;
-	if (sys_language == 0) {
-		hstexttex = sfil_load_PNG_file("romfs:/graphics/BootSplash/HS_JP.png", SF2D_PLACE_RAM);
-		hstouchtex = sfil_load_PNG_file("romfs:/graphics/BootSplash/HStouch_JP.png", SF2D_PLACE_RAM);
-	} else if (sys_language == 6 || sys_language == 11) {
-		hstexttex = sfil_load_PNG_file("romfs:/graphics/BootSplash/HS_CH.png", SF2D_PLACE_RAM);
-		hstouchtex = sfil_load_PNG_file("romfs:/graphics/BootSplash/HStouch_CH.png", SF2D_PLACE_RAM);
-	} else if (sys_language == 7) {
-		hstexttex = sfil_load_PNG_file("romfs:/graphics/BootSplash/HS_KO.png", SF2D_PLACE_RAM);
-		hstouchtex = sfil_load_PNG_file("romfs:/graphics/BootSplash/HStouch_KO.png", SF2D_PLACE_RAM);
+	if (settings.ui.bootscreen >= 3) {
+		if (sys_language == 0) {
+			hstexttex = sfil_load_PNG_file("romfs:/graphics/BootSplash/inv_HS_JP.png", SF2D_PLACE_RAM);
+			hstouchtex = sfil_load_PNG_file("romfs:/graphics/BootSplash/inv_HStouch_JP.png", SF2D_PLACE_RAM);
+		} else if (sys_language == 6 || sys_language == 11) {
+			hstexttex = sfil_load_PNG_file("romfs:/graphics/BootSplash/inv_HS_CH.png", SF2D_PLACE_RAM);
+			hstouchtex = sfil_load_PNG_file("romfs:/graphics/BootSplash/inv_HStouch_CH.png", SF2D_PLACE_RAM);
+		} else if (sys_language == 7) {
+			hstexttex = sfil_load_PNG_file("romfs:/graphics/BootSplash/inv_HS_KO.png", SF2D_PLACE_RAM);
+			hstouchtex = sfil_load_PNG_file("romfs:/graphics/BootSplash/inv_HStouch_KO.png", SF2D_PLACE_RAM);
+		}
+	} else {
+		if (sys_language == 0) {
+			hstexttex = sfil_load_PNG_file("romfs:/graphics/BootSplash/HS_JP.png", SF2D_PLACE_RAM);
+			hstouchtex = sfil_load_PNG_file("romfs:/graphics/BootSplash/HStouch_JP.png", SF2D_PLACE_RAM);
+		} else if (sys_language == 6 || sys_language == 11) {
+			hstexttex = sfil_load_PNG_file("romfs:/graphics/BootSplash/HS_CH.png", SF2D_PLACE_RAM);
+			hstouchtex = sfil_load_PNG_file("romfs:/graphics/BootSplash/HStouch_CH.png", SF2D_PLACE_RAM);
+		} else if (sys_language == 7) {
+			hstexttex = sfil_load_PNG_file("romfs:/graphics/BootSplash/HS_KO.png", SF2D_PLACE_RAM);
+			hstouchtex = sfil_load_PNG_file("romfs:/graphics/BootSplash/HStouch_KO.png", SF2D_PLACE_RAM);
+		}
 	}
-	sf2d_texture *hstex = sfil_load_PNG_file("romfs:/graphics/BootSplash/hs.png", SF2D_PLACE_RAM);
-	sf2d_texture *wipetex = sfil_load_PNG_file("romfs:/graphics/BootSplash/wipe.png", SF2D_PLACE_RAM);
+	sf2d_texture *hstex;
+	sf2d_texture *wipetex;
+	if (settings.ui.bootscreen >= 3) {
+		hstex = sfil_load_PNG_file("romfs:/graphics/BootSplash/inv_hs.png", SF2D_PLACE_RAM);
+		wipetex = sfil_load_PNG_file("romfs:/graphics/BootSplash/inv_wipe.png", SF2D_PLACE_RAM);
+	} else {
+		hstex = sfil_load_PNG_file("romfs:/graphics/BootSplash/hs.png", SF2D_PLACE_RAM);
+		wipetex = sfil_load_PNG_file("romfs:/graphics/BootSplash/wipe.png", SF2D_PLACE_RAM);
+	}
 	
 	// Load the sound effects if DSP is available.
 	if (dspfirmfound) {
-		if (settings.ui.bootscreen >= 2)
+		if (settings.ui.bootscreen == 2 || settings.ui.bootscreen == 4)
 			sfx_boot = new sound("romfs:/sounds/BootSplash/dsiboot.wav", 2, false);
 		else
 			sfx_boot = new sound("romfs:/sounds/BootSplash/dsboot.wav", 2, false);
@@ -192,10 +232,25 @@ void bootSplash() {
 	
 	int splashScreenTime = 0;
 	
+	int bg_col;
+	int text_col;
+	
+	if (settings.ui.bootscreen >= 3) {
+		bg_col = 0;
+	} else {
+		bg_col = 255;
+	}
+	
+	if (settings.ui.bootscreen >= 3) {
+		text_col = 255;
+	} else {
+		text_col = 0;
+	}
+
 	for (int i = 0; i < 75; i++) {
 		for (int topfb = GFX_LEFT; topfb <= GFX_RIGHT; topfb++) {
 			sf2d_start_frame(GFX_TOP, (gfx3dSide_t)topfb);
-			drawRectangle(0, 0, 400, 240, RGBA8(255, 255, 255, 255));
+			drawRectangle(0, 0, 400, 240, RGBA8(bg_col, bg_col, bg_col, 255));
 			if (settings.ui.bootscreen == 1) {
 				drawRectangle(0, 0, 40, 240, RGBA8(0, 0, 0, 255)); // Left black bar
 				drawRectangle(360, 0, 40, 240, RGBA8(0, 0, 0, 255)); // Right black bar
@@ -203,7 +258,7 @@ void bootSplash() {
 			sf2d_end_frame();
 		}
 		sf2d_start_frame(GFX_BOTTOM, GFX_LEFT);
-		drawRectangle(0, 0, 320, 240, RGBA8(255, 255, 255, 255));
+		drawRectangle(0, 0, 320, 240, RGBA8(bg_col, bg_col, bg_col, 255));
 		sf2d_end_frame();
 
 		sf2d_swapbuffers();
@@ -219,8 +274,8 @@ void bootSplash() {
 		// Poll for Slot-1 changes.
 		bool forcePoll = false;
 		bool doSlot1Update = false;
-		if (gamecardIsInserted()) {
-			// Card is inserted.
+		if (gamecardIsInserted() && gamecardGetType() == CARD_TYPE_UNKNOWN) {
+			// Card is inserted, but we don't know its type.
 			// Force an update.
 			forcePoll = true;
 		}
@@ -228,8 +283,8 @@ void bootSplash() {
 		if (s1chg) {
 			// Update Slot-1 if:
 			// - forcePoll is false
-			// - forcePoll is true
-			doSlot1Update = (!forcePoll);
+			// - forcePoll is true, and card is no longer unknown.
+			doSlot1Update = (!forcePoll || gamecardGetType() != CARD_TYPE_UNKNOWN);
 		}
 
 		textVtxArrayPos = 0; // Clear the text vertex array
@@ -285,7 +340,7 @@ void bootSplash() {
 
 		for (int topfb = GFX_LEFT; topfb <= GFX_RIGHT; topfb++) {
 			sf2d_start_frame(GFX_TOP, (gfx3dSide_t)topfb);
-			drawRectangle(0, 0, 400, 240, RGBA8(255, 255, 255, 255));
+			drawRectangle(0, 0, 400, 240, RGBA8(bg_col, bg_col, bg_col, 255));
 			if (topfb == 1) offset3D_temp = offset3D_ndslogo;
 			else offset3D_temp = -offset3D_ndslogo;
 			sf2d_draw_texture(ndslogotex, offset3D_temp+logopos+21, 78);
@@ -309,7 +364,8 @@ void bootSplash() {
 				else offset3D_temp = -offset3D_nint;
 				sf2d_draw_texture(nintendotex, offset3D_temp+40+84, 177);
 			}
-			if (settings.ui.bootscreen >= 2 && splashScreenTime > 60*1) {
+			if (settings.ui.bootscreen == 2 && splashScreenTime > 60*1
+				|| settings.ui.bootscreen == 4 && splashScreenTime > 60*1) {
 				if (topfb == 1) offset3D_temp = offset3D_i;
 				else offset3D_temp = -offset3D_i;
 				i_alpha += 10;
@@ -415,17 +471,19 @@ void bootSplash() {
 				}
 			}
 			sf2d_draw_texture(wipetex, wipePos-320, 0);
-			drawRectangle(wipePos, 0, 400, 240, RGBA8(255, 255, 255, 255));
-			if (fadeout) drawRectangle(0, 0, 400, 240, RGBA8(255, 255, 255, bootSplash_fade));
+			drawRectangle(wipePos, 0, 400, 240, RGBA8(bg_col, bg_col, bg_col, 255));
+			if (fadeout) drawRectangle(0, 0, 400, 240, RGBA8(bg_col, bg_col, bg_col, bootSplash_fade));
 			if (settings.ui.bootscreen == 1) {
 				drawRectangle(0, 0, 40, 240, RGBA8(0, 0, 0, 255)); // Left black bar
 				drawRectangle(360, 0, 40, 240, RGBA8(0, 0, 0, 255)); // Right black bar
 			}
 			sf2d_end_frame();
+			sf2d_swapbuffers();
 		}
 		
 		sf2d_start_frame(GFX_BOTTOM, GFX_LEFT);
-		drawRectangle(0, 0, 320, 240, RGBA8(255, 255, 255, 255));
+		drawRectangle(0, 0, 320, 240, RGBA8(bg_col, bg_col, bg_col, 255));
+
 		switch (sys_language) {
 			case 0:
 			// Japanese
@@ -444,7 +502,7 @@ void bootSplash() {
 			// English
 				if (settings.ui.healthsafety) {
 					sf2d_draw_texture(hstex, 12, 16);
-					setTextColor(RGBA8(0, 0, 0, 255));
+					setTextColor(RGBA8(text_col, text_col, text_col, 255));
 					renderText_w(34, 19, 0.65, 0.65, false, TR(STR_DSSPLASH_WARNING_HS));
 					renderText_w(29, 56, 0.55, 0.55, false, TR(STR_DSSPLASH_WARNING_HS1));
 					renderText_w(29, 80, 0.55, 0.55, false, TR(STR_DSSPLASH_WARNING_HS2));
@@ -455,7 +513,7 @@ void bootSplash() {
 					renderText_w(50, 178, 0.55, 0.55, false, TR(STR_DSSPLASH_WARNING_HS6));
 				}
 				if (touchtocontinue_show) {
-					setTextColor(RGBA8(0, 0, 0, touchtocontinue_alpha));
+					setTextColor(RGBA8(text_col, text_col, text_col, touchtocontinue_alpha));
 					renderText_w(32, touchtocontinue_yPos, 0.55, 0.55, false, TR(STR_DSSPLASH_TOUCH));
 				}
 				break;
@@ -463,7 +521,7 @@ void bootSplash() {
 			// French
 				if (settings.ui.healthsafety) {
 					sf2d_draw_texture(hstex, 12, 16);
-					setTextColor(RGBA8(0, 0, 0, 255));
+					setTextColor(RGBA8(text_col, text_col, text_col, 255));
 					renderText_w(34, 19, 0.62, 0.62, false, TR(STR_DSSPLASH_WARNING_HS));
 					renderText_w(56, 56, 0.45, 0.47, false, TR(STR_DSSPLASH_WARNING_HS1));
 					renderText_w(32, 79, 0.45, 0.47, false, TR(STR_DSSPLASH_WARNING_HS2));
@@ -475,7 +533,7 @@ void bootSplash() {
 					renderText_w(50, 178, 0.55, 0.55, false, TR(STR_DSSPLASH_WARNING_HS7));
 				}
 				if (touchtocontinue_show) {
-					setTextColor(RGBA8(0, 0, 0, touchtocontinue_alpha));
+					setTextColor(RGBA8(text_col, text_col, text_col, touchtocontinue_alpha));
 					renderText_w(32, touchtocontinue_yPos, 0.55, 0.55, false, TR(STR_DSSPLASH_TOUCH));
 				}
 				break;
@@ -483,7 +541,7 @@ void bootSplash() {
 			// German
 				if (settings.ui.healthsafety) {
 					sf2d_draw_texture(hstex, 12, 16);
-					setTextColor(RGBA8(0, 0, 0, 255));
+					setTextColor(RGBA8(text_col, text_col, text_col, 255));
 					renderText_w(35, 21, 0.50, 0.55, false, TR(STR_DSSPLASH_WARNING_HS));
 					renderText_w(32, 55, 0.40, 0.40, false, TR(STR_DSSPLASH_WARNING_HS1));
 					renderText_w(44, 75, 0.40, 0.40, false, TR(STR_DSSPLASH_WARNING_HS2));
@@ -495,7 +553,7 @@ void bootSplash() {
 					renderText_w(50, 178, 0.55, 0.55, false, TR(STR_DSSPLASH_WARNING_HS7));
 				}
 				if (touchtocontinue_show) {
-					setTextColor(RGBA8(0, 0, 0, touchtocontinue_alpha));
+					setTextColor(RGBA8(text_col, text_col, text_col, touchtocontinue_alpha));
 					renderText_w(14, touchtocontinue_yPos, 0.55, 0.55, false, TR(STR_DSSPLASH_TOUCH));
 				}
 				break;
@@ -503,7 +561,7 @@ void bootSplash() {
 			// Italian
 				if (settings.ui.healthsafety) {
 					sf2d_draw_texture(hstex, 12, 16);
-					setTextColor(RGBA8(0, 0, 0, 255));
+					setTextColor(RGBA8(text_col, text_col, text_col, 255));
 					renderText_w(34, 19, 0.60, 0.60, false, TR(STR_DSSPLASH_WARNING_HS));
 					renderText_w(22, 55, 0.40, 0.40, false, TR(STR_DSSPLASH_WARNING_HS1));
 					renderText_w(30, 75, 0.40, 0.40, false, TR(STR_DSSPLASH_WARNING_HS2));
@@ -515,7 +573,7 @@ void bootSplash() {
 					renderText_w(50, 178, 0.55, 0.55, false, TR(STR_DSSPLASH_WARNING_HS7));
 				}
 				if (touchtocontinue_show) {
-					setTextColor(RGBA8(0, 0, 0, touchtocontinue_alpha));
+					setTextColor(RGBA8(text_col, text_col, text_col, touchtocontinue_alpha));
 					renderText_w(34, touchtocontinue_yPos, 0.55, 0.55, false, TR(STR_DSSPLASH_TOUCH));
 				}
 				break;
@@ -523,7 +581,7 @@ void bootSplash() {
 			// Spanish
 				if (settings.ui.healthsafety) {
 					sf2d_draw_texture(hstex, 12, 16);
-					setTextColor(RGBA8(0, 0, 0, 255));
+					setTextColor(RGBA8(text_col, text_col, text_col, 255));
 					renderText_w(34, 21, 0.50, 0.55, false, TR(STR_DSSPLASH_WARNING_HS));
 					renderText_w(22, 55, 0.40, 0.40, false, TR(STR_DSSPLASH_WARNING_HS1));
 					renderText_w(15, 75, 0.40, 0.40, false, TR(STR_DSSPLASH_WARNING_HS2));
@@ -535,7 +593,7 @@ void bootSplash() {
 					renderText_w(50, 178, 0.55, 0.55, false, TR(STR_DSSPLASH_WARNING_HS7));
 				}
 				if (touchtocontinue_show) {
-					setTextColor(RGBA8(0, 0, 0, touchtocontinue_alpha));
+					setTextColor(RGBA8(text_col, text_col, text_col, touchtocontinue_alpha));
 					renderText_w(34, touchtocontinue_yPos, 0.55, 0.55, false, TR(STR_DSSPLASH_TOUCH));
 				}
 				break;
@@ -565,7 +623,7 @@ void bootSplash() {
 				}
 				break;
 		}
-		drawRectangle(0, 0, 320, 240, RGBA8(255, 255, 255, bootSplash_fade));
+		drawRectangle(0, 0, 320, 240, RGBA8(bg_col, bg_col, bg_col, bootSplash_fade));
 		sf2d_end_frame();
 		
 		splashScreenTime += 1;

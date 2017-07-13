@@ -56,6 +56,12 @@ void settingsDrawBottomScreen(void)
 		case 2:
 			bootscreenvaluetext = "NDSi";
 			break;
+		case 3:
+			bootscreenvaluetext = "NDS (Black)";
+			break;
+		case 4:
+			bootscreenvaluetext = "NDSi (Black)";
+			break;
 	}
 
 	const char *healthsafetyvaluetext = (settings.ui.healthsafety ? "On" : "Off");
@@ -176,13 +182,13 @@ bool settingsMoveCursor(u32 hDown)
 			case 1:	// Boot screen
 				if (hDown & (KEY_A | KEY_RIGHT)) {
 					settings.ui.bootscreen++;
-					if (settings.ui.bootscreen > 2) {
+					if (settings.ui.bootscreen > 4) {
 						settings.ui.bootscreen = 0;
 					}
 				} else if (hDown & KEY_LEFT) {
 					settings.ui.bootscreen--;
 					if (settings.ui.bootscreen < 0) {
-						settings.ui.bootscreen = 2;
+						settings.ui.bootscreen = 4;
 					}
 				}
 				break;

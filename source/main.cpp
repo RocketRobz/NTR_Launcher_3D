@@ -334,7 +334,7 @@ int main()
 
 		textVtxArrayPos = 0; // Clear the text vertex array
 		
-		if (hHeld & KEY_A) enterSettings = true;
+		if (hHeld & (KEY_L | KEY_R | KEY_A | KEY_B | KEY_X | KEY_Y | KEY_START | KEY_SELECT)) enterSettings = true;
 	
 		if (enterSettings) {
 			saveOnExit = true;
